@@ -1,10 +1,12 @@
 package DBMS_Project;
 
+import java.io.FileNotFoundException;
+
 public interface DBMS_Interface {
 
-	public void connect(String fileName); // throws exception
+	public void connect(String fileName) throws FileNotFoundException; // throws exception
 	
-	public void disconnect(String fileName); // throws exception
+	public void disconnect(String fileName) throws FileNotFoundException; // throws exception
 	
 	public Record insert(Record record);
 	

@@ -1,13 +1,15 @@
 package DBMS_Project;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseManagementSystem implements DBMS_Interface
 {
 	private String DBMSFilePath;
 	private boolean connected;
 	
-	public DatabaseManagementSystem(){ 
+	public DatabaseManagementSystem(){
 		DBMSFilePath = "";
 		connected = false;
 	}
@@ -27,19 +29,17 @@ public class DatabaseManagementSystem implements DBMS_Interface
 		File f = new File(fileName);
 		 
         // Checking if the database file exists or not
-        if (f.exists()) {
-
-        	DBMSFilePath = fileName;
-        	connected = true;
-   
-            System.out.println("Database file exists and is connected database.");
-            
-        } 
-        // database file is not found
-        else {
-        	FileNotFoundException e = new FileNotFoundException("File not found.");
-        	throw e;
+        if (!f.exists()|| !f.isFile()) {
+			// database file is not found
+			throw new FileNotFoundException("Database file not found");
         }
+
+		DBMSFilePath = fileName;
+		connected = true;
+
+		System.out.println("Database file exists and is connected database.");
+
+
     }
 
 	@Override
@@ -48,7 +48,7 @@ public class DatabaseManagementSystem implements DBMS_Interface
 		File thisFile = new File(this.DBMSFilePath);
 		 
         // database file is found and connected to database
-        if (f.getPath().equals(thisFile.getPath()) && ((this.connected = true))) {
+        if (f.getPath().equals(thisFile.getPath()) && ((this.connected == true))) {
 
         	DBMSFilePath = "";
         	connected = false;
@@ -57,7 +57,7 @@ public class DatabaseManagementSystem implements DBMS_Interface
             
         } 
         // database file is found, but is already disconnected
-        else if (f.getPath().equals(this.DBMSFilePath) && (this.connected = false)) {
+        else if (f.getPath().equals(this.DBMSFilePath) && (this.connected == false)) {
         	
         	System.out.println("Database is found, but database is already disconnected.");
         	
@@ -90,8 +90,24 @@ public class DatabaseManagementSystem implements DBMS_Interface
 
 	@Override
 	public Record[] select(Field search) {
-		// TODO Auto-generated method stub
-		return null;
+
+		// checked if the database is connected
+		if (!connected) {
+			System.out.println("Databse is not connected");
+			return new Record[0];
+		}
+
+		List<Record> matchingRecords = new ArrayList<>();
+
+		Record[] records = new Record[0];
+
+		// get the value of the field and compare it with the value
+		for (Record record : records) {
+			if (record.getFieldValue(search.getFieldName()).equals(search.getValue())) {
+				matchingRecords.add(record);
+			}
+		}
+		return matchingRecords.toArray(new Record[0]);
 	}
 
 	@Override

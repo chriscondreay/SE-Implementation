@@ -1,3 +1,10 @@
+package DBMS_Project;
+
+import DBMS_Project.DatabaseManagementSystem;
+
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class TestApp {
 	
 	public static void main(String args[]) {
@@ -5,9 +12,13 @@ public class TestApp {
 		// connect to database file
 		
 		DatabaseManagementSystem carDB = new DatabaseManagementSystem();
-		
+
+		System.out.print("Enter the file path of your csv file: ");
+		Scanner sc = new Scanner(System.in);
+		String fileName = sc.nextLine();
+
 		try {
-			carDB.connect("/Users/hotpo/Desktop/cardatabase.csv");
+			carDB.connect(fileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -19,7 +30,7 @@ public class TestApp {
 		System.out.println();
 		
 		try {
-			carDB.disconnect("/Users/hotpo/Desktop/cardatabase.csv");
+			carDB.disconnect(fileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
