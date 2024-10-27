@@ -1,8 +1,31 @@
 package DBMS_Project;
 
-public class Record {
+import java.util.ArrayList;
 
-    public Object getFieldValue(Object fieldName) {
-        return fieldName;
-    }
+public class Record {
+	
+	// single array list that holds field types
+	// a single array = one record and would look like this
+	// (Field, Field, Field1) = toyota, 4runner, 1017
+	private ArrayList<Field> record = new ArrayList<Field>();
+	
+	// constructors
+	public Record() {
+		
+	}
+	
+	public int getSize() {
+		return record.size();
+	}
+	
+	public void addEntry(Field entry) {
+		record.add(entry);
+	}
+
+	public void printRecord() {
+		for (int i = 0; i < record.size(); i++ ) {
+			System.out.print(record.get(i).getValue() + ",");
+		}
+	
+	}
 }
