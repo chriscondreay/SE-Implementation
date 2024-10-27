@@ -22,12 +22,15 @@ public class TestApp {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		// showing that system is connected to database
 		System.out.println();
 		System.out.println("Database file path is: " + carDB.getDBPath());
 		System.out.println("Database is connected: " + carDB.getConnect());
 		System.out.println();
+
+		// prints records from database to ensure file is connected and files are correctly updated in arraylist
+		carDB.printDBRecords();
 		
 		try {
 			carDB.disconnect(fileName);
