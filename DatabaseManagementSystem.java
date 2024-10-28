@@ -114,8 +114,8 @@ public class DatabaseManagementSystem implements DBMS_Interface
 			return null;
 		}
 
-		contents.add(record);
-		System.out.println("New record inserted to database!");
+		contents.add(contents.size()-1, record);
+		System.out.println("\nNew record inserted to database!");
 		return record;
 	}
 
