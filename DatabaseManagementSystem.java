@@ -121,7 +121,20 @@ public class DatabaseManagementSystem implements DBMS_Interface
 
 	@Override
 	public boolean contains(String field, String value) {
-		// TODO Auto-generated method stub
+		if (!connected) {
+			System.out.println("Not connected to the database.");
+			return false;
+		}
+
+		for (Record record : contents) {
+			for (int i = 0; i < record.getSize(); i++) {
+				Field currentField = record.getField(i);
+				if (currentField.getName().equals(field) && currentField.getValue().equals(value)) {
+					return true;
+				}
+			}
+		}
+
 		return false;
 	}
 

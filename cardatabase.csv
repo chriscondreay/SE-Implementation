@@ -1,6 +1,6 @@
 make,model,year
 string,string,int
-ford,mustang,2017
-toyota,tacoma,2014
-toyota,4runner,1999
-jeep,wrangler,2005
+ford, mustang, 2017
+toyota, tacoma, 2014
+toyota, 4runner, 1999
+jeep, wrangler, 2005

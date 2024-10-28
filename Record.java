@@ -22,9 +22,19 @@ public class Record {
 		record.add(entry);
 	}
 
+	public Field getField(int index) {
+		if (index >= 0 && index < record.size()) {
+			return record.get(index);
+		}
+		return null;
+	}
+
 	public void printRecord() {
 		for (int i = 0; i < record.size(); i++ ) {
-			System.out.print(record.get(i).getValue() + ",");
+			System.out.print(record.get(i).getValue());
+			if (i < record.size() - 1) {
+				System.out.print(",");
+			}
 		}
 	
 	}
