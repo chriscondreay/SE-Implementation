@@ -71,7 +71,6 @@ public class DatabaseManagementSystem implements DBMS_Interface
 					count++;
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
        
@@ -110,8 +109,14 @@ public class DatabaseManagementSystem implements DBMS_Interface
 
 	@Override
 	public Record insert(Record record) {
-		// TODO Auto-generated method stub
-		return null;
+		if (!connected) {
+			System.out.println("Not connected to the database.");
+			return null;
+		}
+
+		contents.add(record);
+		System.out.println("New record inserted to database!");
+		return record;
 	}
 
 	@Override
