@@ -71,11 +71,17 @@ public class DatabaseManagementSystem implements DBMS_Interface
 					count++;
 				}
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
        
             System.out.println("\nDatabase file exists and is connected database.");
-            
+           
+            try {
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         } 
         // database file is not found
         else {
@@ -88,41 +94,60 @@ public class DatabaseManagementSystem implements DBMS_Interface
 		File f = new File(fileName);
 		File thisFile = new File(this.DBMSFilePath);
 		 
-        	// database file is found and connected to database
-	        if (f.getPath().equals(thisFile.getPath()) && ((this.connected))) {
-	
-	        	DBMSFilePath = "";
-	        	connected = false;
-	   
-	            System.out.println("\nDatabase is disconnected.");      
-	        } 
-	        // database file is found, but is already disconnected
-	        else if (f.getPath().equals(this.DBMSFilePath) && (!this.connected)) {
-	        	
-	        	System.out.println("\nDatabase is found, but database is already disconnected.");
-	        }
-	        // file is not found
-	        else {
-	        	throw new FileNotFoundException("File not found.");
-	        }	
+        // database file is found and connected to database
+        if (f.getPath().equals(thisFile.getPath()) && ((this.connected))) {
+        	
+        	try {
+				BufferedWriter bw = new BufferedWriter(new FileWriter(DBMSFilePath));
+				
+				for (Record record : contents) {
+					for (int i = 0; i < record.getSize(); i++) {
+						Field currentField = record.getField(i);
+						bw.write(currentField.getValue() + ",");
+					}	
+					bw.newLine();
+				}
+				
+				bw.close();
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    
+        	contents.clear();
+        	DBMSFilePath = "";
+        	connected = false;
+        	
+            System.out.println("\nDatabase file is updated and disconnected.");      
+        } 
+        // database file is found, but is already disconnected
+        else if (f.getPath().equals(this.DBMSFilePath) && (!this.connected)) {
+        	
+        	System.out.println("\nDatabase is found, but database is already disconnected.");
+        }
+        // file is not found
+        else {
+        	throw new FileNotFoundException("File not found.");
+        }
 	}
 
 	@Override
 	public Record insert(Record record) {
 		if (!connected) {
-			System.out.println("Not connected to the database.");
+			System.out.println("\nNot connected to the database.");
 			return null;
 		}
 
-		contents.add(contents.size()-1, record);
-		System.out.println("\nNew record inserted to database!");
+		contents.add(contents.size(), record);
+		System.out.println("New record inserted to database!");
 		return record;
 	}
 
 	@Override
 	public boolean contains(String field, String value) {
 		if (!connected) {
-			System.out.println("Not connected to the database.");
+			System.out.println("\nNot connected to the database.");
 			return false;
 		}
 
@@ -140,7 +165,10 @@ public class DatabaseManagementSystem implements DBMS_Interface
 
 	@Override
 	public Record update(Field search, Field modify) {
-		// TODO Auto-generated method stub
+		if (!connected) {
+			System.out.println("\nNot connected to the database.");
+			return null;
+		}
 		return null;
 	}
 
@@ -155,7 +183,7 @@ public class DatabaseManagementSystem implements DBMS_Interface
 				for (int i = 0; i < record.getSize(); i++) {
 					Field currentField = record.getField(i);
 					if (currentField.getName().equals(search.getName()) && currentField.getValue().equals(search.getValue())) {
-						System.out.println("\nThe record you have selected is: ");
+						System.out.println("The record you have selected is: ");
 						record.printRecord();
 						return record;
 					}
@@ -176,9 +204,10 @@ public class DatabaseManagementSystem implements DBMS_Interface
 	
 	// prints the database records
 	public void printDBRecords() {
-		for(int i = 0; i < contents.size()-1; i++) {
+		for(int i = 0; i < contents.size(); i++) {
     		contents.get(i).printRecord();
     		System.out.println();
-    		}
+    	}
+		System.out.println("\n");
 	}
 }
