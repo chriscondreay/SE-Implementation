@@ -139,19 +139,37 @@ public class DatabaseManagementSystem implements DBMS_Interface
 	}
 
 	@Override
-	public Record[] update(Field search, Field modify) {
+	public Record update(Field search, Field modify) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Record[] select(Field search) {
-		// TODO Auto-generated method stub
+	public Record select(Field search) {
+		if (!connected) {
+			System.out.println("\nNot connected to the database.");
+			return null;
+		}
+		if (this.contains(search.getName(),search.getValue()) == true) {
+			for (Record record : contents) {
+				for (int i = 0; i < record.getSize(); i++) {
+					Field currentField = record.getField(i);
+					if (currentField.getName().equals(search.getName()) && currentField.getValue().equals(search.getValue())) {
+						System.out.println("\nThe record you have selected is: ");
+						record.printRecord();
+						return record;
+					}
+				}
+			}
+			
+		} else {
+			System.out.println("\nRecord not found.");
+		}
 		return null;
 	}
 
 	@Override
-	public Record[] delete(Field search) {
+	public Record delete(Field search) {
 		// TODO Auto-generated method stub
 		return null;
 	}
