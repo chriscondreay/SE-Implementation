@@ -53,21 +53,21 @@ public class DatabaseManagementSystem implements DBMS_Interface
 						String[] names = line.split(",");
 						for (int i = 0; i < names.length; i++) {
 							fieldNames.add(names[i]);
+							Field pair = new Field(fieldNames.get(i), fieldNames.get(i));
+							record.addEntry(pair);
 						}
+						
 					// creates and adds Field objects to Record arraylist
-					} else if (count > 1) {
+					} else if (count > 0) {
 						String[] values = line.split(",");
 						for (int i = 0; i < values.length; i++) {
 							Field pair = new Field(fieldNames.get(i), values[i]);
 							record.addEntry(pair);
 						}
 					}
-					
-					// checks to make sure lines 1 (make, model, year) and 2 (string, string, string) from csv are not added, but all the complete
-					// records afterwards are
-					if (count > 1) {
-						contents.add(record);
-					}
+				
+					// adds record to contents array list
+					contents.add(record);
 					count++;
 				}
 			} catch (IOException e) {
