@@ -12,10 +12,10 @@ public interface DBMS_Interface {
 	
 	public boolean contains(String field, String value);
 	
-	public Record update(Field search, Field modify);
+	public ArrayList<Record> update(Field search, Field modify);
 	
-	public Record select(Field search); // throws exception
+	public ArrayList<Record> select(Field search); // throws exception
 	
-	public Record delete(Field search); // throws exception
+	public ArrayList<Record> delete(Field search); // throws exception
 
 }
